@@ -56,3 +56,4 @@ public class SimpleTaskService implements TaskService {
         return taskRepository.findByStatus(status);
     }
 }
+

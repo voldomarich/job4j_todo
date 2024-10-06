@@ -139,3 +139,4 @@ public class HibernateTaskRepository implements TaskRepository {
         }
     }
 }
+

@@ -23,3 +23,4 @@ public interface TaskRepository {
 
     Collection<Task> findByStatus(boolean status);
 }
+

@@ -7,3 +7,4 @@
     http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
     <include file="scripts/001_ddl_create_tasks_table.sql" relativeToChangelogFile="true"/>
 </databaseChangeLog>
+

@@ -9,3 +9,5 @@ import org.springframework.stereotype.Repository;
 public class TaskStore {
     private final SessionFactory sessionFactory;
 }
+
+

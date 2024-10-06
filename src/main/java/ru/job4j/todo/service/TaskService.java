@@ -23,3 +23,4 @@ public interface TaskService {
 
     Collection<Task> findByStatus(boolean status);
 }
+
