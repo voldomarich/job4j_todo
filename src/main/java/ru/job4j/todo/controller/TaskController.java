@@ -38,14 +38,9 @@ public class TaskController {
 
     @PostMapping("/create")
     public String createTask(@ModelAttribute("Task") Task task, Model model) {
-        try {
-            taskService.save(task);
-            model.addAttribute("tasks", taskService.findAll());
-            return "redirect:/";
-        } catch (Exception exception) {
-            model.addAttribute("message", exception.getMessage());
-            return "errors/404";
-        }
+        taskService.save(task);
+        model.addAttribute("tasks", taskService.findAll());
+        return "redirect:/";
     }
 
     @GetMapping("/{id}")
@@ -61,17 +56,11 @@ public class TaskController {
 
     @PostMapping("/update")
     public String update(@ModelAttribute Task task, Model model) {
-        try {
-            var isUpdated = taskService.update(task);
-            if (!isUpdated) {
-                model.addAttribute("message", "Task is not found");
-                return "errors/404";
-            }
-            return "redirect:/";
-        } catch (Exception exception) {
-            model.addAttribute("message", exception.getMessage());
+        var isUpdated = taskService.update(task);
+        if (!isUpdated) {
+            model.addAttribute("message", "Task is not found");
             return "errors/404";
         }
+        return "redirect:/";
     }
 }
-

@@ -3,10 +3,12 @@
 ## Приложение представляет собой страницу со списком заданий
 
 В таблице отображаем имя, дату создания и состояние (выполнено или нет)
+
 - На странице со списком добавить кнопку "Добавить задание".
 - На странице со списком добавить три ссылки: "Все", "Выполненные", "Новые". 
-- 
-При переходе по ссылкам в таблице нужно отображать: все задания, только выполненные или только новые.
+
+При переходе по ссылкам в таблице нужно отображать: все задания, только выполненные или только новые
+
 - При клике на задание переходим на страницу с подробным описанием задания.
 - На странице с подробным описанием добавить кнопки: "Выполнено", "Редактировать", "Удалить".
 - Если нажали на кнопку выполнить, то задание переводится в состояние выполнено.
@@ -16,17 +18,25 @@
 ## Technology Stack
 - Java 17
 - PostgreSQL
-- springframework.boot 2.7.6
+- Springframework.boot 2.7.6
 - Hibernate
 - Lombok
 - H2database
 - Liquibase
-- 
+
 ## Running the Project
--Create a database named 'todo' in PostgreSQL.
--Check the database connection settings in the following files:
---db/liquibase.properties
---src/main/resources/hibernate.cfg.xml
--Before starting, run the command liquibase:update.
--Run the main method.
--Open the browser at http://localhost:8080/.
+
+- Создать базу данных под названием 'todo' в программе PostgreSQL
+- Проверить настройки доступа к базе данных в следующих файлах:
+-- db/liquibase.properties
+-- src/main/resources/hibernate.cfg.xml
+- Перед началом выполнить команду liquibase:update
+- Запустить метод the Main в корне проекта
+- Открыть браузер и запустить страницу http://localhost:8080/
+
+![Снимок экрана (560).png](..%2F..%2FOneDrive%2F%C8%E7%EE%E1%F0%E0%E6%E5%ED%E8%FF%2F%D1%ED%E8%EC%EA%E8%20%FD%EA%F0%E0%ED%E0%2F%D1%ED%E8%EC%EE%EA%20%FD%EA%F0%E0%ED%E0%20%28560%29.png)
+
+![Снимок экрана (562).png](..%2F..%2FOneDrive%2F%C8%E7%EE%E1%F0%E0%E6%E5%ED%E8%FF%2F%D1%ED%E8%EC%EA%E8%20%FD%EA%F0%E0%ED%E0%2F%D1%ED%E8%EC%EE%EA%20%FD%EA%F0%E0%ED%E0%20%28562%29.png)
+
+![Снимок экрана (563).png](..%2F..%2FOneDrive%2F%C8%E7%EE%E1%F0%E0%E6%E5%ED%E8%FF%2F%D1%ED%E8%EC%EA%E8%20%FD%EA%F0%E0%ED%E0%2F%D1%ED%E8%EC%EE%EA%20%FD%EA%F0%E0%ED%E0%20%28563%29.png)
+
