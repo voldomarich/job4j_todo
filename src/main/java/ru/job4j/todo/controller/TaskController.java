@@ -1,15 +1,15 @@
 package ru.job4j.todo.controller;
 
+import net.jcip.annotations.ThreadSafe;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 import ru.job4j.todo.model.Task;
 import ru.job4j.todo.service.SimpleTaskService;
 
 @Controller
+@RequestMapping("/tasks")
+@ThreadSafe
 public class TaskController {
 
     private SimpleTaskService taskService;
@@ -51,7 +51,7 @@ public class TaskController {
             return "errors/404";
         }
         model.addAttribute("task", taskOptional.get());
-        return "tasks/one";
+        return "tasks/edit";
     }
 
     @PostMapping("/update")

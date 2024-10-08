@@ -8,7 +8,6 @@ import org.hibernate.query.Query;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
-import org.springframework.web.bind.annotation.RequestMapping;
 import ru.job4j.todo.model.Task;
 
 import java.util.Collection;
@@ -16,7 +15,6 @@ import java.util.Optional;
 
 @Repository
 @AllArgsConstructor
-@RequestMapping("/tasks")
 public class HibernateTaskRepository implements TaskRepository {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(HibernateTaskRepository.class);
@@ -68,9 +66,10 @@ public class HibernateTaskRepository implements TaskRepository {
         Transaction transaction = session.beginTransaction();
         try {
             int updatedRows = session.createQuery(
-                            "UPDATE Task t SET t.description = :fDescription WHERE t.id = :fId")
-                    .setParameter("fDescription", "new description")
-                    .setParameter("fId", task.getId())
+                            "UPDATE Task t SET "
+                    + "t.title = :fTitle, t.description = :fDescription WHERE t.id = :fId")
+                    .setParameter("fTitle", task.getTitle())
+                    .setParameter("fDescription", task.getDescription())
                     .executeUpdate();
             transaction.commit();
             isUpdated = updatedRows > 0;

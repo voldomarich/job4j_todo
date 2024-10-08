@@ -36,7 +36,9 @@
                     <div class="form-check mb-3">
                         <input type="checkbox" name="done" class="form-check-input" id="done"
                                th:field="*{done}">
-                        <label class="form-check-label" for="done">Выполнено</label>
+                        <div class="col-4">
+                            <button onclick="/tasks/update">Выполнено</button>
+                        </div>
                     </div>
                 </div>
             </div>

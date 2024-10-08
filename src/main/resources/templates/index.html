@@ -16,28 +16,6 @@
 <body>
 <div class="container-fluid p-0">
     <header th:insert="blocks/header :: header"></header>
-    <div class="container">
-        <div class="row" style="height:20%;overflow:auto;">
-            <table class="table table-hover table-bordered">
-                <thead class="table-light">
-                <tr>
-                    <th scope="col">Номер</th>
-                    <th scope="col">Наименование</th>
-                    <th scope="col">Дата создания</th>
-                    <th scope="col">Статус выполнения</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr th:each="task: ${tasks}">
-                    <td th:text="${task.id}"></td>
-                    <td><a th:text="${task.title}" th:href="@{/tasks/{taskId}(taskId=${task.id})}"></a></td>
-                    <td th:text="${task.created}"></td>
-                    <td th:text="${task.done}"></td>
-                </tr>
-                </tbody>
-            </table>
-        </div>
-    </div>
     <div class="text-center">
         <a class="btn btn-success btn-lg btn-block" th:href="@{/tasks/create}">Добавить задание</a>
     </div>
