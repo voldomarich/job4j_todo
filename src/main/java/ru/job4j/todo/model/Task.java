@@ -23,4 +23,3 @@ public class Task {
     private LocalDateTime created = LocalDateTime.now().truncatedTo(ChronoUnit.SECONDS);
     private boolean done = false;
 }
-

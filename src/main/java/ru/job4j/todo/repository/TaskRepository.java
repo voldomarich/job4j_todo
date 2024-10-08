@@ -9,7 +9,7 @@ public interface TaskRepository {
 
     Task save(Task task);
 
-    boolean markDone(Task task);
+    boolean markDone(int id);
 
     boolean update(Task task);
 
@@ -23,4 +23,3 @@ public interface TaskRepository {
 
     Collection<Task> findByStatus(boolean status);
 }
-

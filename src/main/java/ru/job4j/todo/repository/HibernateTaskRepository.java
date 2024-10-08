@@ -37,7 +37,7 @@ public class HibernateTaskRepository implements TaskRepository {
         return task;
     }
 
-    public boolean markDone(Task task) {
+    public boolean markDone(int id) {
         boolean isMarked = false;
         Session session = sessionFactory.openSession();
         Transaction transaction = session.beginTransaction();
@@ -45,7 +45,7 @@ public class HibernateTaskRepository implements TaskRepository {
             int updatedRows = session.createQuery(
                             "UPDATE Task t SET t.done = :fDone WHERE t.id = :fId")
                     .setParameter("fDone", true)
-                    .setParameter("fId", task.getId())
+                    .setParameter("fId", id)
                     .executeUpdate();
             transaction.commit();
             isMarked = updatedRows > 0;
@@ -53,7 +53,7 @@ public class HibernateTaskRepository implements TaskRepository {
             if (transaction != null && transaction.getStatus().canRollback()) {
                 transaction.rollback();
             }
-            LOGGER.error("Error marking task '{}' : {}", task.getTitle(), e.getMessage(), e);
+            LOGGER.error("Error marking task '{}' : {}", "task with id " + id, e.getMessage(), e);
         } finally {
             session.close();
         }
@@ -66,8 +66,10 @@ public class HibernateTaskRepository implements TaskRepository {
         Transaction transaction = session.beginTransaction();
         try {
             int updatedRows = session.createQuery(
-                            "UPDATE Task t SET t.description = :fDescription WHERE t.id = :fId")
-                    .setParameter("fDescription", "new description")
+                            "UPDATE Task t SET "
+                    + "t.title = :fTitle, t.description = :fDescription WHERE t.id = :fId")
+                    .setParameter("fTitle", task.getTitle())
+                    .setParameter("fDescription", task.getDescription())
                     .setParameter("fId", task.getId())
                     .executeUpdate();
             transaction.commit();
