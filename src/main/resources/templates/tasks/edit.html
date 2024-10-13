@@ -33,12 +33,11 @@
                                th:field="*{description}"
                                placeholder="">
                     </div>
-                    <div class="form-check mb-3">
-                        <input type="checkbox" name="done" class="form-check-input" id="done"
-                               th:field="*{done}">
-                        <div class="col-4">
-                            <button onclick="/tasks/update">Выполнено</button>
-                        </div>
+                    <div class="col-4" th:if="${!task.done}">
+                        <form th:action="@{/tasks/done/{id}(id=${task.id})}" method="post">
+                            <button type="submit" class="btn btn-outline-success w-100">Выполнено
+                            </button>
+                        </form>
                     </div>
                 </div>
             </div>
@@ -46,11 +45,20 @@
                 <div class="col-6"></div>
                 <div class="col-6">
                     <div class="row">
-                        <div class="col-4"><a class="btn btn-light w-100" th:href="@{/}">Отмена</a></div>
-                        <div class="col-4"><a class="btn btn-danger w-100"
-                                              th:href="@{/tasks/delete/{id}(id=${task.id})}">Удалить</a></div>
                         <div class="col-4">
-                            <button class="btn btn-success w-100" type="submit">Редактировать</button>
+                            <a class="btn btn-light w-100" th:href="@{/tasks}">Отмена</a>
+                        </div>
+                        <div class="col-4">
+                            <form th:action="@{/tasks/delete/{id}(id=${task.id})}" method="post">
+                                <button type="submit" class="btn btn-outline-danger w-100">
+                                    Удалить
+                                </button>
+                            </form>
+                        </div>
+                        <div class="col-4">
+                            <button class="btn btn-success w-100" type="submit" th:href="@{/tasks/list/}">
+                                Редактировать
+                            </button>
                         </div>
                     </div>
                 </div>
