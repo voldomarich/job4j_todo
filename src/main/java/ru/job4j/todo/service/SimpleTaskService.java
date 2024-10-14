@@ -22,8 +22,8 @@ public class SimpleTaskService implements TaskService {
     }
 
     @Override
-    public boolean markDone(Task task) {
-        return taskRepository.markDone(task);
+    public boolean markDone(int id) {
+        return taskRepository.markDone(id);
     }
 
     @Override
@@ -56,4 +56,3 @@ public class SimpleTaskService implements TaskService {
         return taskRepository.findByStatus(status);
     }
 }
-

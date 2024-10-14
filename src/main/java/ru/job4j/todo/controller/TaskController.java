@@ -1,6 +1,5 @@
 package ru.job4j.todo.controller;
 
-import net.jcip.annotations.ThreadSafe;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -9,7 +8,6 @@ import ru.job4j.todo.service.SimpleTaskService;
 
 @Controller
 @RequestMapping("/tasks")
-@ThreadSafe
 public class TaskController {
 
     private SimpleTaskService taskService;
@@ -30,6 +28,17 @@ public class TaskController {
         return "tasks/list";
     }
 
+    @GetMapping("/{id}")
+    public String getById(Model model, @PathVariable int id) {
+        var taskOptional = taskService.findById(id);
+        if (taskOptional.isEmpty()) {
+            model.addAttribute("message", "Task with id=" + id + " is not found");
+            return "errors/404";
+        }
+        model.addAttribute("task", taskOptional.get());
+        return "tasks/edit";
+    }
+
     @GetMapping("/create")
     public String getCreationPage(Model model) {
         model.addAttribute("tasks", taskService.findAll());
@@ -43,15 +52,14 @@ public class TaskController {
         return "redirect:/";
     }
 
-    @GetMapping("/{id}")
-    public String getById(Model model, @PathVariable int id) {
-        var taskOptional = taskService.findById(id);
-        if (taskOptional.isEmpty()) {
-            model.addAttribute("message", "Task with id=" + id + " is not found");
+    @PostMapping("/done/{id}")
+    public String updateStatus(@ModelAttribute Task task, Model model, @PathVariable int id) {
+        var isUpdated = taskService.markDone(id);
+        if (!isUpdated) {
+            model.addAttribute("message", "Task is not found");
             return "errors/404";
         }
-        model.addAttribute("task", taskOptional.get());
-        return "tasks/edit";
+        return "redirect:/";
     }
 
     @PostMapping("/update")
