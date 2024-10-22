@@ -27,6 +27,7 @@
 ## Running the Project
 
 - Создать базу данных под названием 'tasks' в программе PostgreSQL
+- Добавить необходимые таблицы в базу данных
 - Проверить настройки доступа к базе данных в следующих файлах:
 -- db/liquibase.properties
 -- src/main/resources/hibernate.cfg.xml
@@ -68,3 +69,10 @@
 
 ### List Of Undone Tasks
 ![ListOfNew.png](src%2Fmain%2Fresources%2Ftemplates%2Fimages%2FListOfNew.png)
+
+### Login Page
+![UserLogin.png](src%2Fmain%2Fresources%2Ftemplates%2Fimages%2FUserLogin.png)
+![UserAfterEntering.png](src%2Fmain%2Fresources%2Ftemplates%2Fimages%2FUserAfterEntering.png)
+
+### Register Page
+![UserRegister.png](src%2Fmain%2Fresources%2Ftemplates%2Fimages%2FUserRegister.png)

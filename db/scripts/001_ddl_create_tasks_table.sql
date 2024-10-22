@@ -5,4 +5,3 @@ CREATE TABLE if not exists tasks (
    created TIMESTAMP,
    done BOOLEAN
 );
-

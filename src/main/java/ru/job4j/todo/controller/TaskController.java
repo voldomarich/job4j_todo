@@ -5,16 +5,16 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import ru.job4j.todo.model.Task;
-import ru.job4j.todo.service.SimpleTaskService;
+import ru.job4j.todo.service.task.HibernateTaskService;
 
 @Controller
 @RequestMapping("/tasks")
 @ThreadSafe
 public class TaskController {
 
-    private final SimpleTaskService taskService;
+    private final HibernateTaskService taskService;
 
-    public TaskController(SimpleTaskService taskService) {
+    public TaskController(HibernateTaskService taskService) {
         this.taskService = taskService;
     }
 
