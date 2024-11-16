@@ -1,6 +1,8 @@
 package ru.job4j.todo.repository.task;
 
 import lombok.AllArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 import ru.job4j.todo.model.Task;
 import ru.job4j.todo.repository.CrudRepository;
@@ -13,6 +15,7 @@ import java.util.Optional;
 @AllArgsConstructor
 public class HibernateTaskRepository implements TaskRepository {
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(HibernateTaskRepository.class);
     private final CrudRepository crudRepository;
 
     public Task save(Task task) {
@@ -47,10 +50,15 @@ public class HibernateTaskRepository implements TaskRepository {
     }
 
     public Optional<Task> findById(int taskId) {
-        return crudRepository.optional(
-                "from User where id = :fId", Task.class,
-                Map.of("fId", taskId)
-        );
+        try {
+            return crudRepository.optional(
+                    "from User where id = :fId", Task.class,
+                    Map.of("fId", taskId)
+            );
+        } catch (Exception e) {
+            LOGGER.error("Error deleting task by Id '{}': {}", taskId, e.getMessage());
+            return Optional.empty();
+        }
     }
 
     public Collection<Task> findAll() {
