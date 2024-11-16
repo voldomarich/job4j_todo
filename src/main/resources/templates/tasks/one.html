@@ -22,6 +22,10 @@
                 <b>Название</b>
                 <div th:text="${task.title}"></div>
             </div>
+            <div class="mb-3">
+                <span class="text-secondary">Имя пользователя: </span>
+                <span th:text="${task.user.name}"></span>
+            </div>
             <div class="mb-3 col-4">
                 <b>Описание</b>
                 <div th:text="${task.description}"></div>
