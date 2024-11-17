@@ -21,11 +21,11 @@ public class HibernateUserRepository implements UserRepository {
     public Optional<User> save(User user) {
         try {
             crudRepository.run(session -> session.persist(user));
-            return Optional.ofNullable(user);
+            return Optional.of(user);
         } catch (Exception e) {
             LOGGER.error("Error saving user '{}' : {}", user.getName(), e.getMessage());
-            return Optional.empty();
         }
+        return Optional.empty();
     }
 
     @Override
@@ -37,8 +37,8 @@ public class HibernateUserRepository implements UserRepository {
             );
         } catch (Exception e) {
             LOGGER.error("Error finding user by login '{}' and password '{}': {}", login, password, e.getMessage());
-            return Optional.empty();
         }
+        return Optional.empty();
     }
 
     public Collection<User> findAll() {
@@ -46,8 +46,8 @@ public class HibernateUserRepository implements UserRepository {
     }
 
     public boolean deleteById(int userId) {
-        crudRepository.optional(
-                "DELETE FROM User u WHERE u.id = :fId", User.class,
+        crudRepository.run(
+                "DELETE FROM User u WHERE u.id = :fId",
                 Map.of("fId", userId)
         );
         return true;
