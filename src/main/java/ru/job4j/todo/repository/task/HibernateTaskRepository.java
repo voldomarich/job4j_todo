@@ -21,24 +21,26 @@ public class HibernateTaskRepository implements TaskRepository {
     }
 
     public boolean markDone(int id) {
-        crudRepository.run(
-                "UPDATE Task t SET t.done = :fDone WHERE t.id = :fId",
-                Map.of("fDone", true, "fId", id)
+        int updatedRows = crudRepository.tx(session -> session.createQuery(
+                        "UPDATE Task t SET t.done = :fDone WHERE t.id = :fId")
+                .setParameter("fDone", true)
+                .setParameter("fId", id)
+                .executeUpdate()
         );
-        return true;
+        return updatedRows > 0;
     }
 
     public boolean update(Task task) {
-        crudRepository.run(session -> session.merge(task));
-        return true;
+        return crudRepository.tx(session -> session.merge(task) != null);
     }
 
     public boolean deleteById(int taskId) {
-        crudRepository.run(
-                "DELETE FROM Task t WHERE t.id = :fId",
-                Map.of("fId", taskId)
-        );
-        return true;
+        return crudRepository.tx(session -> {
+            int rowsAffected = session.createQuery("DELETE FROM Task t WHERE t.id = :fId")
+                    .setParameter("fId", taskId)
+                    .executeUpdate();
+            return rowsAffected > 0;
+        });
     }
 
     @Override

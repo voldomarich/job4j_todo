@@ -46,10 +46,11 @@ public class HibernateUserRepository implements UserRepository {
     }
 
     public boolean deleteById(int userId) {
-        crudRepository.run(
-                "DELETE FROM User u WHERE u.id = :fId",
-                Map.of("fId", userId)
+        int deletedRows = crudRepository.tx(session -> session.createQuery(
+                        "DELETE FROM User u WHERE u.id = :fId")
+                .setParameter("fId", userId)
+                .executeUpdate()
         );
-        return true;
+        return deletedRows > 0;
     }
 }
