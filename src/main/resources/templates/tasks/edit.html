@@ -26,6 +26,13 @@
                     <input type="text" class="form-control" id="title" name="title" th:field="*{title}"
                            placeholder="">
                 </div>
+                <div class="main__content__priority">
+                    <label for="priority">Приоритет:</label>
+                    <select name="priority.id" id="priority" th:field="*{priority.id}">
+                        <option th:each="priority: ${priorities}" th:value="${priority.id}" th:text="${priority.position}"
+                                th:selected="${task.priority.id == priority.id}">Приоритет задачи</option>
+                    </select>
+                </div>
                 <div class="mb-3">
                     <label for="description" class="form-label"><b>Описание</b></label>
                     <input type="text" class="form-control" id="description" name="description"

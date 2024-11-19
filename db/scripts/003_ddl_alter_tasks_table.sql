@@ -1,1 +1,2 @@
-ALTER table tasks ADD COLUMN user_id INT NOT NULL REFERENCES users(id);
+ALTER TABLE tasks ADD COLUMN user_id INT NOT NULL REFERENCES users(id);
+ALTER TABLE tasks ADD COLUMN priority_id INT NOT NULL REFERENCES priorities(id);

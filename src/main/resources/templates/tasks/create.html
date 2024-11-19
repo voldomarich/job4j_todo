@@ -28,6 +28,12 @@
         <textarea class="form-control" id="description" name="description" rows="8"
                   placeholder="Type Description"></textarea>
       </div>
+      <div class="main__content__priority">
+        <label for="priority">Приоритет:</label>
+        <select name="priority.id" id="priority">
+          <option th:each="priority: ${priorities}" th:value="${priority.id}" th:text="${priority.position}">Приоритет задачи</option>
+        </select>
+      </div>
       <div class="mb-3 row">
         <div class="col-6"></div>
         <div class="col-6">

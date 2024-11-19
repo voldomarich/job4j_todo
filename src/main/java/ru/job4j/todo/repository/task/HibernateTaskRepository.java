@@ -1,6 +1,6 @@
 package ru.job4j.todo.repository.task;
 
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 import ru.job4j.todo.model.Task;
 import ru.job4j.todo.repository.CrudRepository;
@@ -10,7 +10,7 @@ import java.util.Map;
 import java.util.Optional;
 
 @Repository
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class HibernateTaskRepository implements TaskRepository {
 
     private final CrudRepository crudRepository;

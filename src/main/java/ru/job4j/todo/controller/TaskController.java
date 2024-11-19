@@ -6,6 +6,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import ru.job4j.todo.model.Task;
 import ru.job4j.todo.model.User;
+import ru.job4j.todo.service.priority.PriorityService;
 import ru.job4j.todo.service.task.HibernateTaskService;
 
 import javax.servlet.http.HttpSession;
@@ -16,9 +17,11 @@ import javax.servlet.http.HttpSession;
 public class TaskController {
 
     private final HibernateTaskService taskService;
+    private final PriorityService priorityService;
 
-    public TaskController(HibernateTaskService taskService) {
+    public TaskController(HibernateTaskService taskService, PriorityService priorityService) {
         this.taskService = taskService;
+        this.priorityService = priorityService;
     }
 
     @GetMapping("/list")
@@ -57,12 +60,14 @@ public class TaskController {
             model.addAttribute("message", "Task with id=" + id + " is not found");
             return "errors/404";
         }
+        model.addAttribute("priorities", priorityService.findAll());
         model.addAttribute("task", taskOptional.get());
         return "tasks/edit";
     }
 
     @GetMapping("/create")
     public String getCreationPage(Model model) {
+        model.addAttribute("priorities", priorityService.findAll());
         return "tasks/create";
     }
 
