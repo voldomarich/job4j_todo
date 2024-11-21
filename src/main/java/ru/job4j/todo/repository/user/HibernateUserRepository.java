@@ -7,9 +7,7 @@ import org.springframework.stereotype.Repository;
 import ru.job4j.todo.model.User;
 import ru.job4j.todo.repository.CrudRepository;
 
-import java.util.Collection;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
 @Repository
 @AllArgsConstructor
@@ -23,7 +21,7 @@ public class HibernateUserRepository implements UserRepository {
             crudRepository.run(session -> session.persist(user));
             return Optional.of(user);
         } catch (Exception e) {
-            LOGGER.error("Error saving user '{}' : {}", user.getName(), e.getMessage());
+            LOGGER.error("Ошибка при сохранении пользователя '{}' : {}", user.getName(), e.getMessage());
         }
         return Optional.empty();
     }
@@ -36,21 +34,29 @@ public class HibernateUserRepository implements UserRepository {
                     Map.of("login", login, "password", password)
             );
         } catch (Exception e) {
-            LOGGER.error("Error finding user by login '{}' and password '{}': {}", login, password, e.getMessage());
+            LOGGER.error("Ошибка при поиске пользователя по логину '{}' и паролю '{}': {}", login, password, e.getMessage());
         }
         return Optional.empty();
     }
 
     public Collection<User> findAll() {
-        return crudRepository.query("FROM User u order by u.id ASC", User.class);
+        List<User> result = new ArrayList<>();
+        try {
+            result = crudRepository.query("FROM User u order by u.id ASC", User.class);
+        } catch (Exception e) {
+            LOGGER.error("Произошла ошибка во время поиска списка пользователей: " + e.getMessage());
+        }
+        return result;
     }
 
     public boolean deleteById(int userId) {
-        int deletedRows = crudRepository.tx(session -> session.createQuery(
-                        "DELETE FROM User u WHERE u.id = :fId")
-                .setParameter("fId", userId)
-                .executeUpdate()
-        );
-        return deletedRows > 0;
+        boolean result = false;
+        try {
+            crudRepository.run("DELETE User u WHERE u.id = :fId", Map.of("fId", userId));
+            result = true;
+        } catch (Exception e) {
+            LOGGER.error("Ошибка при удалении пользователя: " + e.getMessage());
+        }
+        return result;
     }
 }

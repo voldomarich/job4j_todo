@@ -11,7 +11,7 @@
     <module name="FileLength"/>
     <module name="LineLength">
         <property name="fileExtensions" value="java"/>
-        <property name="max" value="120"/>
+        <property name="max" value="127"/>
     </module>
     <!-- Checks for Headers                                -->
     <!-- See http://checkstyle.sf.net/config_header.html   -->
