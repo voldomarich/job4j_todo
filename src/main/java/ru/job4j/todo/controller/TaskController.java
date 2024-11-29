@@ -1,28 +1,31 @@
 package ru.job4j.todo.controller;
 
+import lombok.AllArgsConstructor;
 import net.jcip.annotations.ThreadSafe;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import ru.job4j.todo.model.Category;
 import ru.job4j.todo.model.Task;
 import ru.job4j.todo.model.User;
+import ru.job4j.todo.service.category.CategoryService;
 import ru.job4j.todo.service.priority.PriorityService;
 import ru.job4j.todo.service.task.HibernateTaskService;
 
 import javax.servlet.http.HttpSession;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Controller
+@AllArgsConstructor
 @RequestMapping("/tasks")
 @ThreadSafe
 public class TaskController {
 
     private final HibernateTaskService taskService;
     private final PriorityService priorityService;
-
-    public TaskController(HibernateTaskService taskService, PriorityService priorityService) {
-        this.taskService = taskService;
-        this.priorityService = priorityService;
-    }
+    private final CategoryService categoryService;
 
     @GetMapping("/list")
     public String getPageList(Model model) {
@@ -61,6 +64,7 @@ public class TaskController {
             return "errors/404";
         }
         model.addAttribute("priorities", priorityService.findAll());
+        model.addAttribute("categories", categoryService.findAll());
         model.addAttribute("task", taskOptional.get());
         return "tasks/edit";
     }
@@ -68,13 +72,18 @@ public class TaskController {
     @GetMapping("/create")
     public String getCreationPage(Model model) {
         model.addAttribute("priorities", priorityService.findAll());
+        model.addAttribute("categories", categoryService.findAll());
         return "tasks/create";
     }
 
     @PostMapping("/create")
-    public String createTask(@ModelAttribute("Task") Task task, Model model, HttpSession session) {
+    public String createTask(@ModelAttribute("Task") Task task, HttpSession session,
+                             @RequestParam(value = "category.id") List<Integer> categoriesId) {
         var user = (User) session.getAttribute("user");
         task.setUser(user);
+        task.setCreated(LocalDateTime.now());
+        List<Category> categories = categoryService.findByListOfId(categoriesId);
+        task.setCategories(categories);
         taskService.save(task);
         return "redirect:/tasks/list";
     }

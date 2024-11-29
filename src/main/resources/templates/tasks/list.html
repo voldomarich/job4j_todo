@@ -27,6 +27,7 @@
                     <th scope="col">Статус</th>
                     <th scope="col">Имя пользователя</th>
                     <th scope="col">Приоритет задачи</th>
+                    <th scope="col">Категория</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -38,6 +39,9 @@
                     <td th:text="${task.done}"></td>
                     <td th:text="${task.user.name}"></td>
                     <td th:text="${task.priority.position}"></td>
+                    <td>
+                        <span th:each="category : ${task.categories}" th:text="${category.name}"></span>
+                    </td>
                 </tr>
                 </tbody>
             </table>

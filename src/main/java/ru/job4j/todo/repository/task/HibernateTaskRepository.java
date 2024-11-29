@@ -71,7 +71,7 @@ public class HibernateTaskRepository implements TaskRepository {
     public Optional<Task> findById(int taskId) {
         Optional<Task> result = Optional.empty();
         try {
-            result = crudRepository.optional("FROM Task i JOIN FETCH i.priority WHERE i.id = :fId",
+            result = crudRepository.optional("FROM Task i JOIN FETCH i.priority JOIN FETCH i.category WHERE i.id = :fId",
                     Task.class, Map.of("fId", taskId));
         } catch (Exception e) {
             LOGGER.error("Произошла ошибка во время поиска: " + e.getMessage());
@@ -82,7 +82,8 @@ public class HibernateTaskRepository implements TaskRepository {
     public Collection<Task> findAll() {
         List<Task> result = new ArrayList<>();
         try {
-            result = crudRepository.query("FROM Task i JOIN FETCH i.priority order by i.id ASC", Task.class);
+            result = crudRepository
+                    .query("FROM Task i JOIN FETCH i.priority JOIN FETCH i.category ORDER BY i.id ASC", Task.class);
         } catch (Exception e) {
             LOGGER.error("Произошла ошибка во время поиска: " + e.getMessage());
         }
@@ -92,7 +93,8 @@ public class HibernateTaskRepository implements TaskRepository {
     public Collection<Task> findByStatus(boolean status) {
         List<Task> result = new ArrayList<>();
         try {
-            result = crudRepository.query("FROM Task i JOIN FETCH i.priority WHERE i.user = :fUser", Task.class,
+            result = crudRepository
+                    .query("FROM Task i JOIN FETCH i.priority JOIN FETCH i.category WHERE i.user = :fUser", Task.class,
                     Map.of("fStatus", status));
         } catch (Exception e) {
             LOGGER.error("Произошла ошибка во время поиска: " + e.getMessage());

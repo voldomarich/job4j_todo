@@ -31,7 +31,14 @@
       <div class="main__content__priority">
         <label for="priority">Приоритет:</label>
         <select name="priority.id" id="priority">
-          <option th:each="priority: ${priorities}" th:value="${priority.id}" th:text="${priority.position}">Приоритет задачи</option>
+          <option th:each="priority: ${priorities}" th:value="${priority.id}" th:text="${priority.position}">Выберите приоритет</option>
+        </select>
+      </div>
+      <div class="row mb-3">
+        <label for="category"><b>Категории</b></label>
+        <select class="form-control" id="category" name="categoryId" required>
+          <option value="" disabled selected>Выберите категорию</option>
+          <option th:each="category : ${categories}" th:value="${category.id}" th:text="${category.name}"></option>
         </select>
       </div>
       <div class="mb-3 row">

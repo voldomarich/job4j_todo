@@ -23,6 +23,8 @@
                 <div th:text="${task.title}"></div>
             </div>
             <p class="main__content__head__priority" for="priority">Приоритет:<span th:text="${task.priority.position}"></span></p>
+            <p><strong>Категории:</strong>  <span th:each="category : ${task.categories}">
+                    <span th:text="${category.name}"></span></span></p>
             <div class="mb-3">
                 <span class="text-secondary">Имя пользователя: </span>
                 <span th:text="${task.user.name}"></span>
