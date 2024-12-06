@@ -45,7 +45,13 @@ public class HibernateTaskRepository implements TaskRepository {
     public boolean update(Task task) {
         boolean result = false;
         try {
-            crudRepository.run(session -> session.merge(task));
+            crudRepository.run("UPDATE Task t SET t.title = :fTitle, t.description = :fDescription,"
+                            + "t.priority = :fPriority WHERE t.id = :fId",
+                    Map.of(
+                            "fTitle", task.getTitle(),
+                            "fDescription", task.getDescription(),
+                            "fPriority", task.getPriority(),
+                            "fId", task.getId()));
             result = true;
         } catch (Exception e) {
             LOGGER.error("Произошла ошибка при обновлении задачи: " + e.getMessage());
@@ -71,7 +77,7 @@ public class HibernateTaskRepository implements TaskRepository {
     public Optional<Task> findById(int taskId) {
         Optional<Task> result = Optional.empty();
         try {
-            result = crudRepository.optional("FROM Task i JOIN FETCH i.priority JOIN FETCH i.category WHERE i.id = :fId",
+            result = crudRepository.optional("FROM Task i JOIN FETCH i.priority JOIN FETCH i.categories WHERE i.id = :fId",
                     Task.class, Map.of("fId", taskId));
         } catch (Exception e) {
             LOGGER.error("Произошла ошибка во время поиска: " + e.getMessage());
@@ -83,7 +89,7 @@ public class HibernateTaskRepository implements TaskRepository {
         List<Task> result = new ArrayList<>();
         try {
             result = crudRepository
-                    .query("FROM Task i JOIN FETCH i.priority JOIN FETCH i.category ORDER BY i.id ASC", Task.class);
+                    .query("FROM Task i JOIN FETCH i.priority JOIN FETCH i.categories ORDER BY i.id ASC", Task.class);
         } catch (Exception e) {
             LOGGER.error("Произошла ошибка во время поиска: " + e.getMessage());
         }
@@ -94,7 +100,7 @@ public class HibernateTaskRepository implements TaskRepository {
         List<Task> result = new ArrayList<>();
         try {
             result = crudRepository
-                    .query("FROM Task i JOIN FETCH i.priority JOIN FETCH i.category WHERE i.user = :fUser", Task.class,
+                    .query("FROM Task i JOIN FETCH i.priority JOIN FETCH i.categories WHERE i.done = :fStatus", Task.class,
                     Map.of("fStatus", status));
         } catch (Exception e) {
             LOGGER.error("Произошла ошибка во время поиска: " + e.getMessage());

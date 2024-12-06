@@ -5,6 +5,7 @@ import net.jcip.annotations.ThreadSafe;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import ru.job4j.todo.converter.ConvertDate;
 import ru.job4j.todo.model.Category;
 import ru.job4j.todo.model.Task;
 import ru.job4j.todo.model.User;
@@ -14,7 +15,6 @@ import ru.job4j.todo.service.task.HibernateTaskService;
 
 import javax.servlet.http.HttpSession;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -28,8 +28,11 @@ public class TaskController {
     private final CategoryService categoryService;
 
     @GetMapping("/list")
-    public String getPageList(Model model) {
-        model.addAttribute("tasks", taskService.findAll());
+    public String getPageList(Model model, HttpSession session) {
+        var tasks = taskService.findAll();
+        User user = (User) session.getAttribute("user");
+        ConvertDate.convertDate(tasks, user);
+        model.addAttribute("tasks", tasks);
         return "tasks/list";
     }
 
@@ -78,11 +81,11 @@ public class TaskController {
 
     @PostMapping("/create")
     public String createTask(@ModelAttribute("Task") Task task, HttpSession session,
-                             @RequestParam(value = "category.id") List<Integer> categoriesId) {
+                             @RequestParam List<Integer> categoryId) {
         var user = (User) session.getAttribute("user");
         task.setUser(user);
         task.setCreated(LocalDateTime.now());
-        List<Category> categories = categoryService.findByListOfId(categoriesId);
+        List<Category> categories = categoryService.findByListOfId(categoryId);
         task.setCategories(categories);
         taskService.save(task);
         return "redirect:/tasks/list";

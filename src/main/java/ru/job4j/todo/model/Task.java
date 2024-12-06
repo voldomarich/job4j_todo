@@ -4,7 +4,7 @@ import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
-import java.time.temporal.ChronoUnit;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,14 +16,13 @@ import java.util.List;
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @ToString
 public class Task {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @EqualsAndHashCode.Include
     private int id;
     private String title;
     private String description;
-    private LocalDateTime created = LocalDateTime.now().truncatedTo(ChronoUnit.SECONDS);
+    private LocalDateTime created = LocalDateTime.now(ZoneId.of("UTC")).withNano(0);
     private boolean done = false;
 
     @ManyToOne
@@ -36,7 +35,7 @@ public class Task {
 
     @ManyToMany
     @JoinTable(
-            name = "task_category",
+            name = "task_categories",
             joinColumns = { @JoinColumn(name = "task_id")},
             inverseJoinColumns = { @JoinColumn(name = "category_id")}
     )

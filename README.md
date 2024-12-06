@@ -76,3 +76,9 @@
 
 ### Register Page
 ![UserRegister.png](src%2Fmain%2Fresources%2Ftemplates%2Fimages%2FUserRegister.png)
+
+### RegPageWithTimeZone
+![RegPageWithTimeZone.png](src%2Fmain%2Fresources%2Ftemplates%2Fimages%2FRegPageWithTimeZone.png)
+
+### ListWithPriorityAndCategory
+![ListWithPriorityAndCategory.png](src%2Fmain%2Fresources%2Ftemplates%2Fimages%2FListWithProrityAndCategory.png)
